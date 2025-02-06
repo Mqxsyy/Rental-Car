@@ -1,19 +1,19 @@
-function price(pickup, dropoff, pickupDate, dropoffDate, type, age) {
-    const clazz = getClazz(type);
-    const days = get_days(pickupDate, dropoffDate);
+function getPrice(pickupDate, dropoffDate, type, age) {
+    console.log(type)
+    const days = getDays(pickupDate, dropoffDate);
     const season = getSeason(pickupDate, dropoffDate);
 
     if (age < 18) {
         return "Driver too young - cannot quote the price";
     }
 
-    if (age <= 21 && clazz !== "Compact") {
+    if (age <= 21 && type !== "Compact") {
         return "Drivers 21 y/o or less can only rent Compact vehicles";
     }
 
     let rentalprice = age * days;
 
-    if (clazz === "Racer" && age <= 25 && season === "High") {
+    if (type === "Racer" && age <= 25 && season === "High") {
         rentalprice *= 1.5;
     }
 
@@ -24,25 +24,11 @@ function price(pickup, dropoff, pickupDate, dropoffDate, type, age) {
     if (days > 10 && season === "Low") {
         rentalprice *= 0.9;
     }
+
     return "$" + rentalprice;
 }
 
-function getClazz(type) {
-    switch (type) {
-        case "Compact":
-            return "Compact";
-        case "Electric":
-            return "Electric";
-        case "Cabrio":
-            return "Cabrio";
-        case "Racer":
-            return "Racer";
-        default:
-            return "Unknown";
-    }
-}
-
-function get_days(pickupDate, dropoffDate) {
+function getDays(pickupDate, dropoffDate) {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const firstDate = new Date(pickupDate);
     const secondDate = new Date(dropoffDate);
@@ -54,21 +40,21 @@ function getSeason(pickupDate, dropoffDate) {
     const pickup = new Date(pickupDate);
     const dropoff = new Date(dropoffDate);
 
-    const start = 4;
-    const end = 10;
+    const highSeasonStart = 4;
+    const highSeasonEnd = 10;
 
     const pickupMonth = pickup.getMonth();
     const dropoffMonth = dropoff.getMonth();
 
     if (
-        (pickupMonth >= start && pickupMonth <= end) ||
-        (dropoffMonth >= start && dropoffMonth <= end) ||
-        (pickupMonth < start && dropoffMonth > end)
+        (pickupMonth >= highSeasonStart && pickupMonth <= highSeasonEnd) ||
+        (dropoffMonth >= highSeasonStart && dropoffMonth <= highSeasonEnd) ||
+        (pickupMonth <= highSeasonStart && dropoffMonth >= highSeasonEnd)
     ) {
         return "High";
-    } else {
-        return "Low";
     }
+
+    return "Low";
 }
 
-exports.price = price;
+exports.getPrice = getPrice;

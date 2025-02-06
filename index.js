@@ -16,15 +16,20 @@ const resultHtml = fs.readFileSync("result.html", "utf8");
 
 app.post("/", (req, res) => {
     const post = req.body;
-    const result = rental.price(
-        String(post.pickup),
-        String(post.dropoff),
-        Date.parse(post.pickupdate),
-        Date.parse(post.dropoffdate),
-        String(post.type),
+    let type = String(post.type)
+    type = type.charAt(0).toUpperCase() + type.slice(1) 
+
+    const result = rental.getPrice(
+        Date.parse(post.pickupDate),
+        Date.parse(post.dropoffDate),
+        String(type),
         Number(post.age),
     );
-    res.send(formHtml + resultHtml.replaceAll("$0", result));
+
+    res.send(
+        formHtml +
+        resultHtml.replaceAll("$0", result).replaceAll("carName", type),
+    );
 });
 
 app.get("/", (req, res) => {
