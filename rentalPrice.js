@@ -1,5 +1,8 @@
-function getPrice(pickupDate, dropoffDate, type, age) {
-    console.log(type)
+function getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration) {
+    if (licenseOwnedDuration < 1) {
+        return "Driver has not held license for enough time"
+    }
+
     const days = getDays(pickupDate, dropoffDate);
     const season = getSeason(pickupDate, dropoffDate);
 
@@ -23,6 +26,14 @@ function getPrice(pickupDate, dropoffDate, type, age) {
 
     if (days > 10 && season === "Low") {
         rentalprice *= 0.9;
+    }
+
+    if (licenseOwnedDuration < 2) {
+        rentalprice *= 1.3
+    }
+
+    if (licenseOwnedDuration < 3 && season === "High") {
+        rentalprice += 15 * days
     }
 
     return "$" + rentalprice;
