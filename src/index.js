@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/pictures", express.static("images"));
 
-const formHtml = fs.readFileSync("form.html", "utf8");
-const resultHtml = fs.readFileSync("result.html", "utf8");
+const formHtml = fs.readFileSync("./src/form.html", "utf8");
+const resultHtml = fs.readFileSync("./src/result.html", "utf8");
 
 app.post("/", (req, res) => {
     const post = req.body;
