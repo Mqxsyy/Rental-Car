@@ -46,7 +46,7 @@ function isWeekend(day) {
 }
 
 function calculateBaseRentPrice(age, days, pickupDate) {
-    const day = new Date(pickupDate).getDay();
+    let day = new Date(pickupDate).getDay();
     let sum = 0
 
     for (let i = 0; i < days; i++) {
@@ -143,4 +143,5 @@ module.exports = {
     getLicenseOwnedDurationMultipler,
     getLicenseOwnedDurationAddition,
     getPrice,
+    isWeekend,
 };
