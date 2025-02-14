@@ -12,6 +12,7 @@ describe("rentalPrice", () => {
     getLicenseOwnedDurationMultipler,
     getLicenseOwnedDurationAddition,
     getPrice,
+    isWeekend,
   } = rentalPrice;
 
   test("checks if driver is too young to rent", () => {
@@ -43,8 +44,12 @@ describe("rentalPrice", () => {
     expect(getSeason("2024-11-01", "2024-11-10")).toBe("Low");
   });
 
-  test("calculates base rent price", () => {
-    expect(calculateBaseRentPrice(25, 5)).toBe(125);
+  test("calculates base rent price without weekends", () => {
+    expect(calculateBaseRentPrice(25, 5, "2024-12-30")).toBe(125);
+  });
+
+  test("calculates base rent price with weekends", () => {
+    expect(calculateBaseRentPrice(25, 5, "2025-01-01")).toBe(127.5);
   });
 
   test("applies racer multiplier correctly", () => {
@@ -83,4 +88,12 @@ describe("rentalPrice", () => {
       /\$\d+/,
     );
   });
+
+  test("returns true if weekend", () => {
+    expect(isWeekend(0)).toBe(true);
+  });
+
+  test("returns false if weekday", () => {
+      expect(isWeekend(2)).toBe(false);
+  })
 });
