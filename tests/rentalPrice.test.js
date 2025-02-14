@@ -84,9 +84,7 @@ describe("rentalPrice", () => {
   });
 
   test("calculates final price correctly", () => {
-    expect(getPrice("2024-06-01", "2024-06-10", "Sedan", 25, 3)).toMatch(
-      /\$\d+/,
-    );
+    expect(getPrice("2024-06-01", "2024-06-10", "Sedan", 25, 3)).toBe("$293.25");
   });
 
   test("returns true if weekend", () => {

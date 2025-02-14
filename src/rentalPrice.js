@@ -107,7 +107,7 @@ function getPrice(pickupDate, dropoffDate, type, age, licenseOwnedYears) {
     const days = getDays(pickupDate, dropoffDate);
     const season = getSeason(pickupDate, dropoffDate);
 
-    const basePrice = calculateBaseRentPrice(age, days);
+    const basePrice = calculateBaseRentPrice(age, days, pickupDate);
 
     const multipliers = [
         getRacerMultiplier(type, age, season),
