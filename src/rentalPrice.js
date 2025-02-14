@@ -41,8 +41,29 @@ function getSeason(pickupDate, dropoffDate) {
     return "Low";
 }
 
-function calculateBaseRentPrice(age, days) {
-    return age * days;
+function isWeekend(day) {
+    return day % 6 === 0
+}
+
+function calculateBaseRentPrice(age, days, pickupDate) {
+    const day = new Date(pickupDate).getDay();
+    let sum = 0
+
+    for (let i = 0; i < days; i++) {
+        if (isWeekend(day)) {
+            sum += age * 1.05
+        }
+        else{
+            sum += age
+        }
+        
+        day++;
+        if (day >= 7) {
+            day = 0
+        }
+    }
+     
+    return sum;
 }
 
 function getRacerMultiplier(type, age, season) {
